@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="MiTiendaSystem_API:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>MiTiendaSystem_API</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="MiTiendaSystem_API-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="MiTiendaSystem_API:war exploded" />
+    </root>
+  </artifact>
+</component>
