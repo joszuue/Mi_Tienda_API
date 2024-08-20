@@ -12,7 +12,7 @@ public class Ofertas {
     public Ofertas() {
     }
 
-    public Ofertas(String codOferta, Productos producto, String fechaCreacion, String fechaIncio, String fechaFin, double precio, String estado) {
+    public Ofertas(String codOferta, Productos producto, String fechaCreacion, String fechaIncio, String fechaFin, double precio, String estado ) {
         this.codOferta = codOferta;
         this.producto = producto;
         this.fechaCreacion = fechaCreacion;

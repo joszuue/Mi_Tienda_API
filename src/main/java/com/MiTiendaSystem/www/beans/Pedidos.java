@@ -12,7 +12,7 @@ public class Pedidos {
     public Pedidos() {
     }
 
-    public Pedidos(String codPedido, Productos producto, Ordenes orden, Clientes cliente, int cantidad, Double precioUnitario, String estado) {
+    public Pedidos(String codPedido, Productos producto, Ordenes orden, Clientes cliente, int cantidad, Double precioUnitario, String estado ) {
         this.codPedido = codPedido;
         this.producto = producto;
         this.orden = orden;

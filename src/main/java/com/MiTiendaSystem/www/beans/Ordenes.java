@@ -10,7 +10,7 @@ public class Ordenes {
     public Ordenes() {
     }
 
-    public Ordenes(String codOrden, String direccion, String fecha, Double total, String estado) {
+    public Ordenes(String codOrden, String direccion, String fecha, Double total, String estado ) {
         this.codOrden = codOrden;
         this.direccion = direccion;
         this.fecha = fecha;

@@ -13,7 +13,7 @@ public class Operadores {
     public Operadores() {
     }
 
-    public Operadores(String codOperadores, String contra, String nombre1, String nombre2, String apellido1, String apellido2, String rol, String estado) {
+    public Operadores(String codOperadores, String contra, String nombre1, String nombre2, String apellido1, String apellido2, String rol, String estado ) {
         this.codOperadores = codOperadores;
         this.contra = contra;
         this.nombre1 = nombre1;

@@ -9,7 +9,7 @@ public class Imagenes {
     public Imagenes() {
     }
 
-    public Imagenes(int idImagen, String codProducto, String imagen, String estado) {
+    public Imagenes(int idImagen, String codProducto, String imagen, String estado ) {
         this.idImagen = idImagen;
         this.codProducto = codProducto;
         this.imagen = imagen;

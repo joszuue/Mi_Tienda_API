@@ -17,7 +17,7 @@ public class Productos {
     public Productos() {
     }
 
-    public Productos(String codProducto, Categorias categoria, String nombre, String descripcion, Double precio, String sexo, int stock, String estado, ArrayList<Imagenes> imagenes) {
+    public Productos(String codProducto, Categorias categoria, String nombre, String descripcion, Double precio, String sexo, int stock, String estado, ArrayList<Imagenes> imagenes ) {
         this.codProducto = codProducto;
         this.categoria = categoria;
         this.nombre = nombre;

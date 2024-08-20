@@ -9,7 +9,7 @@ public class Categorias {
     public Categorias() {
     }
 
-    public Categorias(String codCategoria, String nombre, String descripcion, String estado) {
+    public Categorias(String codCategoria, String nombre, String descripcion, String estado ) {
         this.codCategoria = codCategoria;
         this.nombre = nombre;
         this.descripcion = descripcion;
