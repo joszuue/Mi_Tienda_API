@@ -88,7 +88,7 @@ public class ImagenesModel extends Conexion{
         return listaImagenes; // Retorna la lista obtenida de la base de datos
     }
 
-    public boolean deleteImagen(String idImagen) {
+    public boolean deleteImagen(int idImagen) {
         boolean isSaved = false; //Inicializa la variable que indica si la eliminación fue exitosa
         try {
             connect(); // Establece la conexión a la base de datos
@@ -97,7 +97,7 @@ public class ImagenesModel extends Conexion{
 
             // Asigna los valores de los parámetros para la consulta SQL
             consulta.setString(1, "Eliminado");
-            consulta.setString(2, idImagen);
+            consulta.setInt(2, idImagen);
 
             // Ejecuta la actualización y obtiene el número de filas afectadas
             int rowsAffected = consulta.executeUpdate();

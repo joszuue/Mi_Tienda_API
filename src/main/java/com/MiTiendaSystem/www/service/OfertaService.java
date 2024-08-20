@@ -1,8 +1,9 @@
 package com.MiTiendaSystem.www.service;
 
-
 import com.MiTiendaSystem.www.beans.Categorias;
+import com.MiTiendaSystem.www.beans.Ofertas;
 import com.MiTiendaSystem.www.model.CategoriaModel;
+import com.MiTiendaSystem.www.model.OfertaModel;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -10,17 +11,15 @@ import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 import java.util.List;
 
-
-@Path("categorias")
-public class CategoriaService {
-    CategoriaModel cateModel = new CategoriaModel();
-
+@Path("ofertas")
+public class OfertaService {
+    OfertaModel oferModel = new OfertaModel();
     @POST
-    @Path("/createCategoria")
+    @Path("/createOferta")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createCategoria(Categorias categoria) throws SQLException {
-        boolean result =  cateModel.insertCategoria(categoria);
+    public Response createOferta(Ofertas ofer) throws SQLException {
+        boolean result =  oferModel.insertOferta(ofer);
         // Devolver la respuesta apropiada
         if (result) {
             return Response.status(200).entity(true).build();
@@ -30,25 +29,25 @@ public class CategoriaService {
     }
 
     @GET
-    @Path("/listCategoria")
+    @Path("/listOfertas")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProductos() throws SQLException{
-        List<Categorias> categorias = cateModel.listaCategorias();
+        List<Ofertas> ofer = oferModel.listaOfertas();
         // Devolver la respuesta apropiada
-        if (categorias != null) {
-            return Response.status(200).entity(categorias).build();
+        if (ofer != null) {
+            return Response.status(200).entity(ofer).build();
         } else {
             return Response.status(404).entity(false).build();
         }
     }
 
     @PUT
-    @Path("/updateCategoria")
+    @Path("/updateOferta")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateCategoria(Categorias categoria) throws SQLException {
+    public Response updateOferta(Ofertas ofer) throws SQLException {
         // Llamar a la lógica de negocio para actualizar la categoría
-        boolean result = cateModel.updateCategoria(categoria);
+        boolean result = oferModel.updateOferta(ofer);
 
         // Devolver la respuesta apropiada
         if (result) {
@@ -59,11 +58,11 @@ public class CategoriaService {
     }
 
     @DELETE
-    @Path("/deleteCategoria/{id}")
+    @Path("/deleteOferta/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteCategoria(@PathParam("id") String codCategoria) throws SQLException {
+    public Response deleteOferta(@PathParam("id") String codOferta) throws SQLException {
         // Llamar a la lógica de negocio para eliminar la categoría
-        boolean result = cateModel.deleteCategoria(codCategoria);
+        boolean result = oferModel.deleteOferta(codOferta);
 
         // Devolver la respuesta apropiada
         if (result) {
