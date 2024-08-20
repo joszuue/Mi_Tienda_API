@@ -12,7 +12,7 @@ public class CategoriaModel extends Conexion{
     private final String SQL_INSERT
             = "INSERT INTO categorias (codCategoria, nombre, descripcion, estado) VALUES (?,?,?,?)";
     private final String SQL_SELECT
-            = "SELECT * FROM categorias";
+            = "SELECT * FROM categorias WHERE estado = ?";
     private final String SQL_UPDATE
             = "UPDATE categorias SET nombre = ?, descripcion = ?, estado = ? WHERE codCategoria = ?";
     private final String SQL_DELETE
@@ -55,8 +55,13 @@ public class CategoriaModel extends Conexion{
         ArrayList<Categorias> listaCategorias = new ArrayList<>(); // Creando la lista donde se guardará cada objeto
         try {
             connect(); //Establece la conexión a la base de datos
-            stmt = conex.createStatement(); //Crear un objeto Statement para ejecutar la consulta SQL
-            resultSet = stmt.executeQuery(SQL_SELECT); //Ejecutar la consulta SQL y obtener el resultado en un ResultSet
+            // Preparando la consulta SQL para hacer el select
+            consulta = conex.prepareStatement(SQL_SELECT);
+
+            //Asigna los valores para los parámetros de la consulta SQL
+            consulta.setString(1, "Disponible");
+
+            resultSet = consulta.executeQuery(); //Ejecutar la consulta SQL y obtiene los resultados
 
             //Iterar sobre cada fila del ResultSet
             while(resultSet.next()){

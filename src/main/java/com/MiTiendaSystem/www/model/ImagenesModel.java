@@ -59,7 +59,7 @@ public class ImagenesModel extends Conexion{
             consulta.setString(1, codProducto);
             consulta.setString(2, "Disponible");
 
-            resultSet = consulta.executeQuery(); //Ejecutar la consulta SQL y obtener el resultado en un ResultSet
+            resultSet = consulta.executeQuery(); //Ejecutar la consulta SQL y obtener el resultado
 
             //Iterar sobre cada fila del ResultSet
             while(resultSet.next()){

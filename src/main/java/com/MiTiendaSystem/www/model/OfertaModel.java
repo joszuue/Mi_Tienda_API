@@ -1,27 +1,28 @@
 package com.MiTiendaSystem.www.model;
 
-import com.MiTiendaSystem.www.beans.Categorias;
 import com.MiTiendaSystem.www.beans.Imagenes;
+import com.MiTiendaSystem.www.beans.Ofertas;
+import com.MiTiendaSystem.www.beans.Operadores;
 import com.MiTiendaSystem.www.beans.Productos;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class ProductoModel extends Conexion{
+public class OfertaModel extends Conexion{
     //Consultas a utilizar
     private final String SQL_INSERT
-            = "INSERT INTO productos (codProducto, codCategoria, nombre, descripcion, precio, sexo, stock, estado) VALUES (?,?,?,?,?,?,?,?)";
+            = "INSERT INTO oferta (codOferta, codProducto, fechaCreacion, fechaInicio, fechaFin, precioOferta, estado) VALUES (?,?,?,?,?,?,?)";
     private final String SQL_SELECT
-            = "SELECT * FROM productos p INNER JOIN categorias c ON p.codCategoria = c.codCategoria WHERE p.estado <> ?";
+            = "SELECT * FROM oferta WHERE estado = ? AND ? BETWEEN fechaInicio AND fechaFin;";
     private final String SQL_UPDATE
-            = "UPDATE productos SET codCategoria = ?, nombre = ?, descripcion = ?, precio = ?, sexo = ?, stock = ?, estado = ? WHERE codProducto = ?";
+            = "UPDATE operadores SET codProducto = ?, fechaCreacion = ?, fechaInicio = ?, fechaFin = ?, precioOferta = ? , estado = ? WHERE codOferta = ?";
     private final String SQL_DELETE
-            = "UPDATE productos SET estado = ? WHERE codProducto = ?";
+            = "UPDATE oferta SET estado = ? WHERE codOferta = ?";
 
-    ImagenesModel imagenesModel = new ImagenesModel();
-
-    public boolean insertProducto(Productos produ) {
+    public boolean insertOferta(Ofertas oferta) {
         boolean isSaved = false; //Inicializa la variable que indica si el insert fue exitoso
         try {
             connect(); //Establece la conexión a la base de datos
@@ -29,20 +30,19 @@ public class ProductoModel extends Conexion{
             consulta = conex.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
 
             // Asigna los valores de los atributos del objeto a los parámetros de la consulta SQL
-            consulta.setString(1, produ.getCodProducto());
-            consulta.setString(2, produ.getCategoria().getCodCategoria());
-            consulta.setString(3, produ.getNombre());
-            consulta.setString(4, produ.getDescripcion());
-            consulta.setDouble(5, produ.getPrecio());
-            consulta.setString(6, produ.getSexo());
-            consulta.setInt(7, produ.getStock());
-            consulta.setString(8, produ.getEstado());
+            consulta.setString(1, oferta.getCodOferta());
+            consulta.setString(2, oferta.getProducto().getCodProducto());
+            consulta.setString(3, oferta.getFechaCreacion());
+            consulta.setString(4, oferta.getFechaIncio());
+            consulta.setString(5, oferta.getFechaFin());
+            consulta.setDouble(6, oferta.getPrecio());
+            consulta.setString(7, oferta.getEstado());
 
             int rowsAffected = consulta.executeUpdate(); // Ejecuta la consulta y guarda el número de filas afectadas
             isSaved = rowsAffected > 0; // Verifica si se insertó al menos una fila
 
         } catch (SQLException e) {
-            System.err.println("Error al guardar el producto: " + e.getMessage());
+            System.err.println("Error al guardar la oferta: " + e.getMessage());
         } finally {
             // Cierre de recursos en el bloque finally para asegurar que siempre se ejecute
             try {
@@ -56,41 +56,36 @@ public class ProductoModel extends Conexion{
         return isSaved; // Retorna true si la inserción fue exitosa, false en caso contrario
     }
 
-
-    public ArrayList<Productos> listaProductos() throws SQLException{
-        ArrayList<Productos> listaProductos = new ArrayList<>(); // Creando la lista donde se guardará cada objeto
+    public ArrayList<Ofertas> listaOfertas() throws SQLException {
+        ArrayList<Ofertas> listaOfertas = new ArrayList<>(); // Creando la lista donde se guardará cada objeto
         try {
             connect(); //Establece la conexión a la base de datos
 
-            //Prepara la consulta SQL select
+            // Preparando la consulta SQL para hacer el select
             consulta = conex.prepareStatement(SQL_SELECT);
 
             //Asigna los valores para los parámetros de la consulta SQL
-            consulta.setString(1, "Eliminado");
+            consulta.setString(1, "Disponible");
+            consulta.setString(2, obtenerFecha());
 
-            resultSet = consulta.executeQuery(); //Ejecutar la consulta SQL y obtiene los resultados
+            resultSet = consulta.executeQuery(); //Ejecutar la consulta SQL y obtener el resultado
 
             //Iterar sobre cada fila del ResultSet
             while(resultSet.next()){
-                Categorias cate = new Categorias(); //Crear un nuevo objeto de la clase Categorias
-                //Asignar los valores obtenidos del ResultSet a los atributos de la clase Categorias
-                cate.setCodCategoria(resultSet.getString(9));
-                cate.setNombre(resultSet.getString(10));
-                cate.setDescripcion(resultSet.getString(11));
-                cate.setEstado(resultSet.getString(12));
+                //Asignar los valores obtenidos del ResultSet a los atributos de la clase
+                Productos produc = new Productos();
+                produc.setCodProducto(resultSet.getString(2));
 
-                Productos produ = new Productos(); //Crear un nuevo objeto de la clase Productos
-                //Asignar los valores obtenidos del ResultSet a los atributos de la clase Productos
-                produ.setCodProducto(resultSet.getString(1));
-                produ.setNombre(resultSet.getString(3));
-                produ.setDescripcion(resultSet.getString(4));
-                produ.setPrecio(resultSet.getDouble(5));
-                produ.setSexo(resultSet.getString(6));
-                produ.setStock(resultSet.getInt(7));
-                produ.setEstado(resultSet.getString(8));
-                produ.setCategoria(cate); //Guarda el objeto categoria en un atributo del objeto Productos
-                produ.setImagenes(imagenesModel.listaImagenes(resultSet.getString(1)));
-                listaProductos.add(produ);
+                Ofertas ofer = new Ofertas();
+                ofer.setCodOferta(resultSet.getString(1));
+                ofer.setFechaCreacion(resultSet.getString(3));
+                ofer.setFechaIncio(resultSet.getString(4));
+                ofer.setFechaFin(resultSet.getString(5));
+                ofer.setPrecio(resultSet.getDouble(6));
+                ofer.setEstado(resultSet.getString(7));
+                ofer.setProducto(produc);
+
+                listaOfertas.add(ofer); // Agregar el objeto a la lista
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener la lista: " + e.getMessage());
@@ -105,11 +100,10 @@ public class ProductoModel extends Conexion{
             }
         }
 
-        return listaProductos; // Retorna la lista obtenida de la base de datos
-
+        return listaOfertas; // Retorna la lista obtenida de la base de datos
     }
 
-    public boolean updateProducto(Productos produ) {
+    public boolean updateOferta(Ofertas oferta) {
         boolean isSaved = false; //Inicializa la variable que indica si la actualización fue exitosa
         try {
             connect(); //Establece la conexión a la base de datos
@@ -117,21 +111,20 @@ public class ProductoModel extends Conexion{
             consulta = conex.prepareStatement(SQL_UPDATE, Statement.RETURN_GENERATED_KEYS);
 
             // Asigna los valores de los atributos del objeto a los parámetros de la consulta SQL
-            consulta.setString(1, produ.getCategoria().getCodCategoria());
-            consulta.setString(2, produ.getNombre());
-            consulta.setString(3, produ.getDescripcion());
-            consulta.setDouble(4, produ.getPrecio());
-            consulta.setString(5, produ.getSexo());
-            consulta.setInt(6, produ.getStock());
-            consulta.setString(7, produ.getEstado());
-            consulta.setString(8, produ.getCodProducto());
+            consulta.setString(1, oferta.getProducto().getCodProducto());
+            consulta.setString(2, oferta.getFechaCreacion());
+            consulta.setString(3, oferta.getFechaIncio());
+            consulta.setString(4, oferta.getFechaFin());
+            consulta.setDouble(5, oferta.getPrecio());
+            consulta.setString(6, oferta.getEstado());
+            consulta.setString(7, oferta.getCodOferta());
 
             // Ejecuta la actualización y obtiene el número de filas afectadas
             int rowsAffected = consulta.executeUpdate();
             isSaved = rowsAffected > 0; // Verifica si se actualizó al menos una fila
 
         } catch (SQLException e) {
-            System.err.println("Error al modificar el producto: " + e.getMessage());
+            System.err.println("Error al modificar la oferta: " + e.getMessage());
         } finally {
             // Cierre de recursos en el bloque finally para asegurar que siempre se ejecute
             try {
@@ -145,7 +138,7 @@ public class ProductoModel extends Conexion{
         return isSaved; // Retorna true si la actualización fue exitosa, false en caso contrario
     }
 
-    public boolean deleteProducto(String codProducto) {
+    public boolean deleteOferta(String codOferta) {
         boolean isSaved = false; //Inicializa la variable que indica si la eliminación fue exitosa
         try {
             connect(); // Establece la conexión a la base de datos
@@ -154,14 +147,14 @@ public class ProductoModel extends Conexion{
 
             // Asigna los valores de los parámetros para la consulta SQL
             consulta.setString(1, "Eliminado");
-            consulta.setString(2, codProducto);
+            consulta.setString(2, codOferta);
 
             // Ejecuta la actualización y obtiene el número de filas afectadas
             int rowsAffected = consulta.executeUpdate();
             isSaved = rowsAffected > 0; // Verifica si se actualizó al menos una fila
 
         } catch (SQLException e) {
-            System.err.println("Error al eliminar el producto: " + e.getMessage());
+            System.err.println("Error al eliminar la oferta: " + e.getMessage());
         } finally {
             // Cierre de recursos en el bloque finally para asegurar que siempre se ejecute
             try {
@@ -175,4 +168,12 @@ public class ProductoModel extends Conexion{
         return isSaved; // Retorna true si la eliminación fue exitosa, false en caso contrario
     }
 
+    public String obtenerFecha() {
+        // Definir el formato deseado para el tipo DATETIME de SQL
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        // Obtener la fecha y hora actual
+        LocalDateTime ahora = LocalDateTime.now();
+        // Formatear la fecha y hora actual
+        return ahora.format(formatter);
+    }
 }
