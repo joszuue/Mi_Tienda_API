@@ -1,8 +1,6 @@
 package com.MiTiendaSystem.www.model;
 
-import com.MiTiendaSystem.www.beans.Clientes;
 import com.MiTiendaSystem.www.beans.Imagenes;
-import com.MiTiendaSystem.www.beans.Productos;
 
 import java.sql.SQLException;
 import java.sql.Statement;

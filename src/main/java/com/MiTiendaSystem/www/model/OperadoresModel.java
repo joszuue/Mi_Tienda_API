@@ -1,6 +1,5 @@
 package com.MiTiendaSystem.www.model;
 
-import com.MiTiendaSystem.www.beans.Categorias;
 import com.MiTiendaSystem.www.beans.Operadores;
 
 import java.sql.SQLException;

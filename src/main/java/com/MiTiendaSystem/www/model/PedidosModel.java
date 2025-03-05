@@ -1,7 +1,6 @@
 package com.MiTiendaSystem.www.model;
 
 import com.MiTiendaSystem.www.beans.*;
-import com.sun.org.apache.xpath.internal.operations.Or;
 
 import java.sql.SQLException;
 import java.sql.Statement;

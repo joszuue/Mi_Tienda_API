@@ -1,9 +1,7 @@
 package com.MiTiendaSystem.www.service;
 
-import com.MiTiendaSystem.www.beans.Operadores;
 import com.MiTiendaSystem.www.beans.Ordenes;
 import com.MiTiendaSystem.www.model.OrdenesModel;
-import com.sun.org.apache.xpath.internal.operations.Or;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

@@ -1,8 +1,6 @@
 package com.MiTiendaSystem.www.service;
 
-import com.MiTiendaSystem.www.beans.Categorias;
 import com.MiTiendaSystem.www.beans.Clientes;
-import com.MiTiendaSystem.www.model.CategoriaModel;
 import com.MiTiendaSystem.www.model.ClientesModel;
 
 import javax.ws.rs.*;

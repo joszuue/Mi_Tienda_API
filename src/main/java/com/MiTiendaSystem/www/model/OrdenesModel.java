@@ -1,9 +1,6 @@
 package com.MiTiendaSystem.www.model;
 
-import com.MiTiendaSystem.www.beans.Categorias;
 import com.MiTiendaSystem.www.beans.Ordenes;
-import com.sun.org.apache.xpath.internal.operations.Or;
-
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;

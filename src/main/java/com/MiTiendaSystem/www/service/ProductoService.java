@@ -1,6 +1,5 @@
 package com.MiTiendaSystem.www.service;
 
-import com.MiTiendaSystem.www.beans.Categorias;
 import com.MiTiendaSystem.www.beans.Productos;
 import com.MiTiendaSystem.www.model.ProductoModel;
 
